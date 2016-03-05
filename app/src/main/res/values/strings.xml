@@ -5,4 +5,5 @@
     <string name="rateString">Rate (%)</string>
     <string name="numberPaymentString"># of Payments</string>
     <string name="equalsString">=</string>
+    <string name="statusString">Status:</string>
 </resources>

@@ -10,12 +10,17 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import edu.westga.coryalfordinvestmentcalculator.model.InvestmentCalculator;
 
 public class MainActivity extends AppCompatActivity {
 
     InvestmentCalculator calc = new InvestmentCalculator();
+    EditText payment, rate, number, result;
+    double paymentDouble, rateDouble;
+    int numberInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +29,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        this.payment = (EditText) findViewById(R.id.paymentEditText);
+        this.rate = (EditText) findViewById(R.id.rateEditText);
+        this.number = (EditText) findViewById(R.id.numberEditText);
+        this.result = (EditText) findViewById(R.id.resultEditText);
+
+        this.payment.addTextChangedListener(inputTextWatcher);
+        this.rate.addTextChangedListener(inputTextWatcher);
+        this.number.addTextChangedListener(inputTextWatcher);
+        this.result.setKeyListener(null);
     }
 
     @Override
@@ -58,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     TextWatcher inputTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
-            calc.calculateInvestment();
+            MainActivity.this.updateCalculator();
+            MainActivity.this.calculateResult();
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after){
@@ -66,4 +73,23 @@ public class MainActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     };
+
+    private void calculateResult() {
+        this.result.setText(String.format("$%.2f", calc.calculateInvestment()));
+    }
+
+    public void updateCalculator() {
+        try {
+            this.paymentDouble = Integer.parseInt(this.payment.getText().toString());
+            this.rateDouble = Integer.parseInt(this.rate.getText().toString());
+            this.numberInt = Integer.parseInt(this.number.getText().toString());
+
+            this.calc.setPayment(this.paymentDouble);
+            this.calc.setRate(this.rateDouble);
+            this.calc.setNumberOfPayments(this.numberInt);
+        } catch (NumberFormatException nfe) {
+            //exit try/catch
+            //this should only occur when a field is empty
+        }
+    }
 }
