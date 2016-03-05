@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CoryAlfordInvestmentCalculator</string>
     <string name="action_settings">Settings</string>
+    <string name="paymentString">Payment</string>
+    <string name="rateString">Rate (%)</string>
+    <string name="numberPaymentString"># of Payments</string>
+    <string name="equalsString">=</string>
 </resources>

@@ -50,6 +50,10 @@ public class InvestmentCalculator {
         }
     }
 
+    /**
+     * Calculates the investment through a fixed rate compounding equation
+     * @return The investment return after the set number of payments
+     */
     public double calculateInvestment() {
         if (this.rate == 0) {
             return this.payment * this.numberOfPayments;
